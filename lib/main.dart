@@ -13,7 +13,6 @@ class Fooderlich extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = FooderlichTheme.dark();
-    // TODO: Apply home widget
     return MaterialApp(
       theme: theme,
       title: 'Fooderlich',
