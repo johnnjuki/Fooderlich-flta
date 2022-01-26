@@ -9,7 +9,7 @@ class TodayRecipeListView extends StatelessWidget {
   const TodayRecipeListView({
     Key? key,
     required this.recipes,
-}) : super(key: key);
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,13 +29,33 @@ class TodayRecipeListView extends StatelessWidget {
           const SizedBox(height: 16),
           Container(
             height: 400,
-            // TODO: Add ListView Here
-            color: Colors.grey,
+            color: Colors.transparent,
+            child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              itemCount: recipes.length,
+              itemBuilder: (context, index) {
+                final recipe = recipes[index];
+                return buildCard(recipe);
+              },
+              separatorBuilder: (context, index) {
+                return const SizedBox(width: 16);
+              },
+            ),
           ),
         ],
       ),
     );
   }
 
-  // TODO: Add buildCard() widget here
+  Widget buildCard(ExploreRecipe recipe) {
+    if (recipe.cardType == RecipeCardType.card1) {
+      return Card1(recipe: recipe);
+    } else if (recipe.cardType == RecipeCardType.card2) {
+      return Card2(recipe: recipe);
+    } else if (recipe.cardType == RecipeCardType.card3) {
+      return Card3(recipe: recipe);
+    } else {
+      throw Exception('This card doesn\'t exit yet');
+    }
+  }
 }
