@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
 
 import '../models/models.dart';
+import '../components/grocery_tile.dart';
 
 class GroceryItemScreen extends StatefulWidget {
   // Callback that lets you know when a new item is created
@@ -73,7 +74,6 @@ class _GroceryItemScreenState extends State<GroceryItemScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO 12: Add GroceryItemScreen Scaffold
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -81,6 +81,25 @@ class _GroceryItemScreenState extends State<GroceryItemScreen> {
             icon: const Icon(Icons.check),
             onPressed: () {
               // TODO 24: Add callback handler
+              final groceryItem = GroceryItem(
+                id: widget.originalItem?.id ?? const Uuid().v1(),
+                name: _nameController.text,
+                importance: _importance,
+                color: _currentColor,
+                quantity: _currentSliderValue,
+                date: DateTime(
+                  _dueDate.year,
+                  _dueDate.month,
+                  _dueDate.day,
+                  _timeOfDay.hour,
+                  _timeOfDay.minute,
+                ),
+              );
+              if (widget.isUpdating) {
+                widget.onUpdate(groceryItem);
+              } else {
+                widget.onCreate(groceryItem);
+              }
             },
           ),
         ],
@@ -102,7 +121,22 @@ class _GroceryItemScreenState extends State<GroceryItemScreen> {
             buildColorPicker(context),
             const SizedBox(height: 10.0),
             buildQuantityField(),
-            // TODO 19: Add Grocery Tile
+            GroceryTile(
+              item: GroceryItem(
+                id: 'previewMode',
+                name: _name,
+                importance: _importance,
+                color: _currentColor,
+                quantity: _currentSliderValue,
+                date: DateTime(
+                  _dueDate.year,
+                  _dueDate.month,
+                  _dueDate.day,
+                  _timeOfDay.hour,
+                  _timeOfDay.minute,
+                ),
+              ),
+            ),
           ],
         ),
       ),
