@@ -80,7 +80,6 @@ class _GroceryItemScreenState extends State<GroceryItemScreen> {
           IconButton(
             icon: const Icon(Icons.check),
             onPressed: () {
-              // TODO 24: Add callback handler
               final groceryItem = GroceryItem(
                 id: widget.originalItem?.id ?? const Uuid().v1(),
                 name: _nameController.text,
