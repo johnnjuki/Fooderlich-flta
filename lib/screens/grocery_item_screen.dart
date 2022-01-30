@@ -45,6 +45,8 @@ class _GroceryItemScreenState extends State<GroceryItemScreen> {
 
   @override
   void initState() {
+    super.initState();
+
     final originalItem = widget.originalItem;
     if (originalItem != null) {
       _nameController.text = originalItem.name;
@@ -55,15 +57,13 @@ class _GroceryItemScreenState extends State<GroceryItemScreen> {
       final date = originalItem.date;
       _timeOfDay = TimeOfDay(hour: date.hour, minute: date.minute);
       _dueDate = date;
-
-      _nameController.addListener(() {
-        setState(() {
-          _name = _nameController.text;
-        });
-      });
-
-      super.initState();
     }
+
+    _nameController.addListener(() {
+      setState(() {
+        _name = _nameController.text;
+      });
+    });
   }
 
   @override
