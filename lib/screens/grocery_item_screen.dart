@@ -19,6 +19,8 @@ class GroceryItemScreen extends StatefulWidget {
   // The grocery item that the use clicked
   final GroceryItem? originalItem;
 
+  final int index;
+
   // Determine whether the use is creating or editing an item
   final bool isUpdating;
 
@@ -27,6 +29,7 @@ class GroceryItemScreen extends StatefulWidget {
     required this.onCreate,
     required this.onUpdate,
     this.originalItem,
+    this.index = -1,
   })  : isUpdating = (originalItem != null),
         super(key: key);
 
@@ -42,35 +45,6 @@ class _GroceryItemScreenState extends State<GroceryItemScreen> {
   TimeOfDay _timeOfDay = TimeOfDay.now();
   Color _currentColor = Colors.green;
   int _currentSliderValue = 0;
-
-  @override
-  void initState() {
-    super.initState();
-
-    final originalItem = widget.originalItem;
-    if (originalItem != null) {
-      _nameController.text = originalItem.name;
-      _name = originalItem.name;
-      _currentSliderValue = originalItem.quantity;
-      _importance = originalItem.importance;
-      _currentColor = originalItem.color;
-      final date = originalItem.date;
-      _timeOfDay = TimeOfDay(hour: date.hour, minute: date.minute);
-      _dueDate = date;
-    }
-
-    _nameController.addListener(() {
-      setState(() {
-        _name = _nameController.text;
-      });
-    });
-  }
-
-  @override
-  void dispose() {
-    _nameController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -94,6 +68,7 @@ class _GroceryItemScreenState extends State<GroceryItemScreen> {
                   _timeOfDay.minute,
                 ),
               );
+
               if (widget.isUpdating) {
                 widget.onUpdate(groceryItem);
               } else {
@@ -105,7 +80,9 @@ class _GroceryItemScreenState extends State<GroceryItemScreen> {
         elevation: 0.0,
         title: Text(
           'Grocery Item',
-          style: GoogleFonts.lato(fontWeight: FontWeight.w600),
+          style: GoogleFonts.lato(
+            fontWeight: FontWeight.w600,
+          ),
         ),
       ),
       body: Container(
@@ -114,8 +91,8 @@ class _GroceryItemScreenState extends State<GroceryItemScreen> {
           children: [
             buildNameField(),
             buildImportanceField(),
-            buildDateField(),
-            buildTimeField(),
+            buildDateField(context),
+            buildTimeField(context),
             const SizedBox(height: 10.0),
             buildColorPicker(context),
             const SizedBox(height: 10.0),
@@ -149,7 +126,9 @@ class _GroceryItemScreenState extends State<GroceryItemScreen> {
       children: [
         Text(
           'Item Name',
-          style: GoogleFonts.lato(fontSize: 28.0),
+          style: GoogleFonts.lato(
+            fontSize: 28.0,
+          ),
         ),
         TextField(
           controller: _nameController,
@@ -157,13 +136,19 @@ class _GroceryItemScreenState extends State<GroceryItemScreen> {
           decoration: InputDecoration(
             hintText: 'E.g. Apples, Banana, 1 bag of salt',
             enabledBorder: const UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.white),
+              borderSide: BorderSide(
+                color: Colors.white,
+              ),
             ),
             focusedBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: _currentColor),
+              borderSide: BorderSide(
+                color: _currentColor,
+              ),
             ),
             border: UnderlineInputBorder(
-              borderSide: BorderSide(color: _currentColor),
+              borderSide: BorderSide(
+                color: _currentColor,
+              ),
             ),
           ),
         ),
@@ -223,7 +208,7 @@ class _GroceryItemScreenState extends State<GroceryItemScreen> {
   }
 
   // Set a deadline date to buy a grocery item
-  Widget buildDateField() {
+  Widget buildDateField(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -259,7 +244,7 @@ class _GroceryItemScreenState extends State<GroceryItemScreen> {
   }
 
   // Set a deadline time to buy a grocery item
-  Widget buildTimeField() {
+  Widget buildTimeField(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -376,5 +361,34 @@ class _GroceryItemScreenState extends State<GroceryItemScreen> {
         ),
       ],
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    final originalItem = widget.originalItem;
+    if (originalItem != null) {
+      _nameController.text = originalItem.name;
+      _name = originalItem.name;
+      _currentSliderValue = originalItem.quantity;
+      _importance = originalItem.importance;
+      _currentColor = originalItem.color;
+      final date = originalItem.date;
+      _timeOfDay = TimeOfDay(hour: date.hour, minute: date.minute);
+      _dueDate = date;
+    }
+
+    _nameController.addListener(() {
+      setState(() {
+        _name = _nameController.text;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    super.dispose();
   }
 }
