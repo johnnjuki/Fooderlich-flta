@@ -1,3 +1,5 @@
+// Handle routing requests
+
 import 'package:flutter/material.dart';
 
 import '../models/models.dart';
@@ -27,6 +29,7 @@ class AppRouter extends RouterDelegate
   Widget build(BuildContext context) {
     return Navigator(
       key: navigatorKey,
+      onPopPage: _handlePopPage,
       pages: const [
         // TODO: Add SplashScreen
         // TODO: Add LoginScreen
@@ -40,7 +43,19 @@ class AppRouter extends RouterDelegate
     );
   }
 
-  // TODO: Add _handlePopPage
+  // Handle pop events
+  bool _handlePopPage(Route<dynamic> route, result) {
+    if (!route.didPop(result)) {
+      return false;
+    }
+
+    // TODO: Handle Onboarding and splash
+    // TODO: Handle state when use closes grocery item screen
+    // TODO: Handle state when use closes profile screen
+    // TODO: Handle state when use closes webview screen
+
+    return true;
+  }
 
   @override
   Future setNewRoutePath(configuration) async => null;
