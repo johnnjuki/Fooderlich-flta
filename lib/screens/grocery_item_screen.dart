@@ -14,7 +14,7 @@ class GroceryItemScreen extends StatefulWidget {
   final Function(GroceryItem) onCreate;
 
   // Callback that returns the updated grocery item
-  final Function(GroceryItem) onUpdate;
+  final Function(GroceryItem, int) onUpdate;
 
   // The grocery item that the use clicked
   final GroceryItem? originalItem;
@@ -23,6 +23,25 @@ class GroceryItemScreen extends StatefulWidget {
 
   // Determine whether the use is creating or editing an item
   final bool isUpdating;
+
+  // GroceryItemScreen MaterialPage Helper
+  static MaterialPage page({
+    GroceryItem? item,
+    int index = -1,
+    required Function(GroceryItem) onCreate,
+    required Function(GroceryItem, int) onUpdate,
+  }) {
+    return MaterialPage(
+      name: FooderlichPages.groceryItemDetails,
+      key: ValueKey(FooderlichPages.groceryItemDetails),
+      child: GroceryItemScreen(
+        originalItem: item,
+        index: index,
+        onCreate: onCreate,
+        onUpdate: onUpdate,
+      ),
+    );
+  }
 
   const GroceryItemScreen({
     Key? key,
@@ -70,7 +89,10 @@ class _GroceryItemScreenState extends State<GroceryItemScreen> {
               );
 
               if (widget.isUpdating) {
-                widget.onUpdate(groceryItem);
+                widget.onUpdate(
+                  groceryItem,
+                  widget.index,
+                );
               } else {
                 widget.onCreate(groceryItem);
               }
