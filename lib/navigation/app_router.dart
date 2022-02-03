@@ -1,6 +1,7 @@
 // Handle routing requests
 
 import 'package:flutter/material.dart';
+import 'package:fooderlich/screens/webview_screen.dart';
 
 import '../models/models.dart';
 import '../screens/screens.dart';
@@ -61,8 +62,10 @@ class AppRouter extends RouterDelegate
             },
             onCreate: (_) {},
           ),
-        // TODO: Add Profile Screen
-        // TODO: Add Webview Screen
+        if (profileManager.didSelectUser)
+          ProfileScreen.page(profileManager.getUser),
+        if (profileManager.didTapOnRaywenderlich)
+          WebViewScreen.page(),
       ],
     );
   }
@@ -73,15 +76,25 @@ class AppRouter extends RouterDelegate
       return false;
     }
 
+    // Handle Onboarding and splash
     if (route.settings.name == FooderlichPages.onboardingPath) {
       appStateManager.logout();
     }
 
+    // Handle state when user closes grocery item screen
     if (route.settings.name == FooderlichPages.groceryItemDetails) {
       groceryManager.groceryItemTapped(-1);
     }
-    // TODO: Handle state when use closes profile screen
-    // TODO: Handle state when use closes webview screen
+
+    // Handle state when user closes profile screen
+    if (route.settings.name == FooderlichPages.profilePath) {
+      profileManager.tapOnProfile(false);
+    }
+
+    // Handle state when user closes webview screen
+    if (route.settings.name == FooderlichPages.raywenderlich) {
+      profileManager.tapOnRaywenderlich(false);
+    }
 
     return true;
   }
