@@ -38,8 +38,8 @@ class AppRouter extends RouterDelegate
     return Navigator(
       key: navigatorKey,
       onPopPage: _handlePopPage,
-      pages: const [
-        // TODO: Add SplashScreen
+      pages: [
+        if (!appStateManager.isInitialized) SplashScreen.page(),
         // TODO: Add LoginScreen
         // TODO: Add OnboardingScreen
         // TODO: Add Home
