@@ -37,9 +37,7 @@ class LoginScreen extends StatelessWidget {
               const SizedBox(
                 height: 200,
                 child: Image(
-                  image: AssetImage(
-                    'assets/fooderlich_assets/rw_logo.png',
-                  ),
+                  image: AssetImage('assets/fooderlich_assets/rw_logo.png'),
                 ),
               ),
               const SizedBox(height: 16),
@@ -60,9 +58,7 @@ class LoginScreen extends StatelessWidget {
       height: 55,
       child: MaterialButton(
         color: rwColor,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8.0),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
         child: const Text(
           'Login',
           style: TextStyle(color: Colors.white),
