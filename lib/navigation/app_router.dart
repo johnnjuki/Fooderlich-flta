@@ -6,7 +6,7 @@ import 'package:fooderlich/screens/webview_screen.dart';
 import '../models/models.dart';
 import '../screens/screens.dart';
 
-class AppRouter extends RouterDelegate
+class AppRouter extends RouterDelegate // TODO: Add <AppLink>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin {
   @override
   final GlobalKey<NavigatorState> navigatorKey;
@@ -99,6 +99,11 @@ class AppRouter extends RouterDelegate
     return true;
   }
 
+  // TODO: Convert app state to applink
+
+  // TODO: Apply configuration helper
+
+  // TODO: Replace setNewRoutePath
   @override
   Future setNewRoutePath(configuration) async => null;
 }
